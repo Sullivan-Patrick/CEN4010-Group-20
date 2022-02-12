@@ -1,5 +1,7 @@
 package com.cen4010.bookstore.wishlist;
 
+import com.cen4010.bookstore.wishlist.dao.WishListDaoIF;
+import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,9 +19,9 @@ public class WishListController {
   }
 
   @GetMapping
-  public WishListIF getWishList() {
-    WishListIF wishListIF = wishListService.getWishList();
-    return wishListIF;
+  public WishListDaoIF getWishList() {
+    WishListDaoIF wishListDaoIF = wishListService.getWishListById(UUID.randomUUID());
+    return wishListDaoIF;
   }
 
 }
