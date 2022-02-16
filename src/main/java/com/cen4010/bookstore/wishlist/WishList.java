@@ -1,45 +1,64 @@
-package com.cen4010.bookstore.wishlist.dao;
+package com.cen4010.bookstore.wishlist;
 
+import com.cen4010.bookstore.book.Book;
 import com.google.common.base.Objects;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import org.hibernate.annotations.Type;
 
 @Entity
 @Table
-public class WishListDaoImpl implements WishListDaoIF {
+public class WishList {
 
   @Id
-  @SequenceGenerator(
-      name = "wishlist",
-      sequenceName = "wishlist_sequence",
-      allocationSize = 1
-  )
-  @GeneratedValue(
-      strategy = GenerationType.SEQUENCE,
-      generator = "wishlist"
-  )
+  @Column(name = "id")
+  @Type(type = "uuid-char")
   private UUID id;
   private UUID userId;
   private String name;
 
-  @Override
+  public WishList() {
+  }
+
+  public WishList(UUID id, UUID userId, String name) {
+    this.id = id;
+    this.userId = userId;
+    this.name = name;
+  }
+
+  @ManyToMany
+  @JoinTable(
+      name = "in_wishlist",
+      joinColumns = @JoinColumn(name = "wishlist_id"),
+      inverseJoinColumns = @JoinColumn(name = "book_id")
+  )
+  private Set<Book> books = new HashSet<>();
+
   public UUID getId() {
     return id;
   }
 
-  @Override
   public UUID getUserId() {
     return userId;
   }
 
-  @Override
   public String getName() {
     return name;
+  }
+
+  public Set<Book> getBooks() {
+    return books;
   }
 
   @Override
@@ -50,7 +69,7 @@ public class WishListDaoImpl implements WishListDaoIF {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    WishListDaoImpl wishList = (WishListDaoImpl) o;
+    WishList wishList = (WishList) o;
     return Objects.equal(id, wishList.id)
         && Objects.equal(userId, wishList.userId)
         && Objects.equal(name, wishList.name);
