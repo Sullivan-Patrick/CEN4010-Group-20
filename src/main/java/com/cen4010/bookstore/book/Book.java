@@ -1,9 +1,18 @@
 package com.cen4010.bookstore.book;
 
+<<<<<<< HEAD
+=======
+import com.cen4010.bookstore.wishlist.WishList;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.UUID;
+import javax.persistence.Column;
+>>>>>>> master
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+<<<<<<< HEAD
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
@@ -74,10 +83,33 @@ public class Book implements BookIF {
   public Long getId(){return id;}
 
   @Override
+=======
+import javax.persistence.ManyToMany;
+import javax.persistence.SequenceGenerator;
+import org.hibernate.annotations.Type;
+
+@Entity
+public class Book {
+
+  @Id
+  @Column(name = "id")
+  @Type(type = "uuid-char")
+  private UUID isbn;
+  private String name;
+
+  @ManyToMany(mappedBy = "books")
+  private Set<WishList> wishListsWithBook = new HashSet<>();
+
+  public UUID getIsbn() {
+    return isbn;
+  }
+
+>>>>>>> master
   public String getName() {
     return name;
   }
 
+<<<<<<< HEAD
   @Override
   public String getDescription() {
     return description;
@@ -111,5 +143,9 @@ public class Book implements BookIF {
   @Override
   public int getCopiesSold() {
     return copiesSold;
+=======
+  public Set<WishList> getWishListsWithBook() {
+    return wishListsWithBook;
+>>>>>>> master
   }
 }
