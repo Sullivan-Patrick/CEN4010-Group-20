@@ -1,21 +1,24 @@
 package com.cen4010.bookstore.book;
 
+import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class BookService {
 
-  public BookImpl getBook() {
-    return new BookImpl(
-        "10-7x",
-        "Test book",
-        "This is a test book",
-        19.99,
-        "Gino Surace",
-        "Fantasy",
-        "Group 20",
-        2022,
-        1
-    );
+  private final BookRepository bookRepository;
+
+  @Autowired
+  public BookService(BookRepository bookRepository) {
+    this.bookRepository = bookRepository;
+  }
+
+  public List<Book> getBook(){
+    return bookRepository.findAll();
+  }
+
+  public List<Book> findByGenre(String genre){
+    return bookRepository.findBookByGenre(genre);
   }
 }
