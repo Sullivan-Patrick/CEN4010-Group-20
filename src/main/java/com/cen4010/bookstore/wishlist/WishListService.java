@@ -1,5 +1,7 @@
 package com.cen4010.bookstore.wishlist;
 
+import com.cen4010.bookstore.book.Book;
+import com.cen4010.bookstore.book.BookRepository;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -13,10 +15,12 @@ import org.springframework.web.server.ResponseStatusException;
 public class WishListService {
 
   private final WishListRepository wishListRepository;
+  private final BookRepository bookRepository;
 
   @Autowired
-  public WishListService(WishListRepository wishListRepository) {
+  public WishListService(WishListRepository wishListRepository, BookRepository bookRepository) {
     this.wishListRepository = wishListRepository;
+    this.bookRepository = bookRepository;
   }
 
   public WishList create(String name, UUID userId) throws LimitExceededException {
@@ -36,7 +40,7 @@ public class WishListService {
 
   public WishList getWishListById(UUID wishlistId) {
     return wishListRepository.findById(wishlistId).orElseThrow(() ->
-        new ResponseStatusException(HttpStatus.NOT_FOUND));
+        new ResponseStatusException(HttpStatus.BAD_REQUEST));
   }
 
   //todo: move filtering logic to repository
@@ -46,6 +50,13 @@ public class WishListService {
         .collect(Collectors.toList());
   }
 
+  public void add(UUID bookId, UUID wishListId) {
+    Book book =  bookRepository.getById(bookId);
+    WishList wishList = wishListRepository.getById(wishListId);
+    wishList.addBook(book);
+    wishListRepository.save(wishList);
+  }
+
   //todo: validate user exists, wishlist name isnt used yet
   private void validateNewWishList(
       List<WishList> wishLists
@@ -53,7 +64,7 @@ public class WishListService {
     if (wishLists.size() >= 3) {
       throw new LimitExceededException("User cannot have more than 3 wishlists");
     }
-
-
   }
+
+
 }

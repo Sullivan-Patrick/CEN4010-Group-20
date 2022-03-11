@@ -3,6 +3,7 @@ package com.cen4010.bookstore.wishlist;
 import java.util.UUID;
 import javax.naming.LimitExceededException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,9 +21,9 @@ public class WishListController {
     this.wishListService = wishListService;
   }
 
-  @GetMapping
-  public WishList getWishList() {
-    return null;
+  @GetMapping("get")
+  public WishList getWishList(@RequestParam UUID uuid) {
+    return wishListService.getWishListById(uuid);
   }
 
   @PostMapping("create")
@@ -31,6 +32,15 @@ public class WishListController {
       @RequestParam UUID userid
   ) throws LimitExceededException {
     return wishListService.create(name, userid);
+  }
+
+  @PostMapping("add")
+  public HttpStatus add(
+      @RequestParam UUID bookId,
+      @RequestParam UUID wishListId
+  ) {
+    wishListService.add(bookId, wishListId);
+    return HttpStatus.OK;
   }
 
 }
