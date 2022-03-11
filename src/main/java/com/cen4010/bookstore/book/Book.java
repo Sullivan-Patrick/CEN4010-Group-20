@@ -1,6 +1,7 @@
 package com.cen4010.bookstore.book;
 
 import com.cen4010.bookstore.wishlist.WishList;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
@@ -22,6 +23,7 @@ public class Book {
   private UUID isbn;
   private String name;
 
+  @JsonIgnore
   @ManyToMany(mappedBy = "books")
   private Set<WishList> wishListsWithBook = new HashSet<>();
 
@@ -35,5 +37,14 @@ public class Book {
 
   public Set<WishList> getWishListsWithBook() {
     return wishListsWithBook;
+  }
+
+  @Override
+  public String toString() {
+    return "Book{" +
+        "isbn=" + isbn +
+        ", name='" + name + '\'' +
+        ", wishListsWithBook=" + wishListsWithBook +
+        '}';
   }
 }

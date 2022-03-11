@@ -45,6 +45,10 @@ public class WishList {
   )
   private Set<Book> books = new HashSet<>();
 
+  public void addBook(Book book) {
+    books.add(book);
+  }
+
   public UUID getId() {
     return id;
   }

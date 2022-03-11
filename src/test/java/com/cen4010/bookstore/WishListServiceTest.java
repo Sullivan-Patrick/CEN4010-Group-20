@@ -3,6 +3,7 @@ package com.cen4010.bookstore;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 
+import com.cen4010.bookstore.book.BookRepository;
 import com.cen4010.bookstore.wishlist.WishList;
 import com.cen4010.bookstore.wishlist.WishListRepository;
 import com.cen4010.bookstore.wishlist.WishListService;
@@ -22,9 +23,12 @@ public class WishListServiceTest {
   @Mock
   private WishListRepository wishListRepository;
 
+  @Mock
+  private BookRepository bookRepository;
+
   @BeforeEach
   public void setup() {
-    wishListService = new WishListService(wishListRepository);
+    wishListService = new WishListService(wishListRepository, bookRepository);
   }
 
   @Test

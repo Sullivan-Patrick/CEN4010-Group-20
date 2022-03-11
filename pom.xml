@@ -65,12 +65,6 @@
     <artifactId>spring-boot-starter-validation</artifactId>
   </dependency>
 
-    <!--		<dependency>-->
-    <!--			<groupId>checkstyle</groupId>-->
-    <!--			<artifactId>checkstyle</artifactId>-->
-    <!--			<version>5.0</version>-->
-    <!--		</dependency>-->
-
     <dependency>
       <groupId>org.apache.maven.plugins</groupId>
       <artifactId>maven-checkstyle-plugin</artifactId>
