@@ -42,8 +42,8 @@ public class Book {
   @Override
   public String toString() {
     return "Book{" +
-        "isbn=" + isbn +
-        ", name='" + name + '\'' +
+        "The isbn is=" + isbn +
+        ", Name='" + name + '\'' +
         ", wishListsWithBook=" + wishListsWithBook +
         '}';
   }
