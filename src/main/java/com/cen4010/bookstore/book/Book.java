@@ -29,9 +29,14 @@ public class Book {
   private int yearPublished;
   private int copiesSold;
   //private final double rating;
+  @JsonIgnore
+  @ManyToMany(mappedBy = "books")
+  private Set<WishList> wishListsWithBook = new HashSet<>();
+
 
   public Book(UUID id, String ISBN, String name, String description, double price,
-      String author, String genre, String publisher, int yearPublished, int copiesSold) {
+      String author, String genre, String publisher, int yearPublished, int copiesSold,
+      Set<WishList> wishListsWithBook) {
     this.id = id;
     this.ISBN = ISBN;
     this.name = name;
@@ -45,8 +50,9 @@ public class Book {
     this.wishListsWithBook = wishListsWithBook;
   }
 
-  public Book(String ISBN, String name, String description, double price, String author,
-      String genre, String publisher, int yearPublished, int copiesSold) {
+  public Book(UUID id, String ISBN, String name, String description, double price,
+      String author, String genre, String publisher, int yearPublished, int copiesSold) {
+    this.id = id;
     this.ISBN = ISBN;
     this.name = name;
     this.description = description;
@@ -58,9 +64,8 @@ public class Book {
     this.copiesSold = copiesSold;
   }
 
-  @JsonIgnore
-  @ManyToMany(mappedBy = "books")
-  private Set<WishList> wishListsWithBook = new HashSet<>();
+  public Book() {
+  }
 
   public UUID getId() {
     return id;
@@ -101,6 +106,7 @@ public class Book {
   public int getCopiesSold() {
     return copiesSold;
   }
+
   public Set<WishList> getWishListsWithBook() {
     return wishListsWithBook;
   }
@@ -108,7 +114,7 @@ public class Book {
   @Override
   public String toString() {
     return "Book{" +
-        "The isbn is=" + isbn +
+        "The isbn is=" + ISBN +
         ", Name='" + name + '\'' +
         ", wishListsWithBook=" + wishListsWithBook +
         '}';

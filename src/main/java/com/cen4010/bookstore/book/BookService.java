@@ -19,6 +19,11 @@ public class BookService {
   }
 
   public List<Book> findByGenre(String genre){
-    return bookRepository.findBookByGenre(genre);
+    return bookRepository.findByGenre(genre);
   }
+
+  public  List<Book> findMostSold(){
+    return bookRepository.findTop10ByOrderByCopiesSoldDesc();
+  }
+
 }

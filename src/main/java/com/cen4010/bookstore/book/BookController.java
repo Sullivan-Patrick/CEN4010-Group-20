@@ -23,22 +23,24 @@ public class BookController {
   @GetMapping
   @ResponseBody
   public List<Book> getBook(@RequestParam(required = false) String genre){
-
     if (genre == null){
-      List<Book> book = bookService.getBook();
-      return book;
+      return bookService.getBook();
     }
     else{
-      List<Book> booksFound = bookService.findByGenre(genre);
-      return booksFound;
+      return bookService.findByGenre(genre);
     }
   }
 
-  @GetMapping("/{genre}")
+  @GetMapping("/genre/{genre}")
   public List<Book> getGenre(@PathVariable("genre") String genre){
-    List<Book> booksFound = bookService.findByGenre(genre);
-    return booksFound;
+    return bookService.findByGenre(genre);
   }
+
+  @GetMapping("/bestsellers")
+  public List<Book> getMostSold(){
+    return bookService.findMostSold();
+  }
+
 
 
 }

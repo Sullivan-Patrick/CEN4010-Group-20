@@ -18,7 +18,7 @@ public class BookStoreRunner {
 
 	@GetMapping
 	public static String hello(){
-		return "Hello World";
+		return "Welcome to Geek Text!";
 	}
 
 }

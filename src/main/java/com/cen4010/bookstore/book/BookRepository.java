@@ -8,6 +8,8 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface BookRepository extends JpaRepository<Book, UUID> {
 
-  List<Book> findBookByGenre(String genre);
+  List<Book> findByGenre(String genre);
+
+  List<Book> findTop10ByOrderByCopiesSoldDesc();
 
 }
