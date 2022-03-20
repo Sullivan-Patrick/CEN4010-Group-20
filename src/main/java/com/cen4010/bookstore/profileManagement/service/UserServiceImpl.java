@@ -34,7 +34,6 @@ public class UserServiceImpl implements UserService {
     this.creditCardRepository = creditCardRepository;
   }
 
-  /* ******************************************************************************************** */
   @Override
   public ResponseEntity<UserDto> save(UserDto dto) {
 
@@ -55,7 +54,6 @@ public class UserServiceImpl implements UserService {
     return ResponseEntity.status(HttpStatus.OK).body(entity.toDto());
   }
 
-  /* ******************************************************************************************** */
   @Override
   public ResponseEntity<UserDto> update(UserDto dto, UUID userId) {
 
@@ -75,7 +73,6 @@ public class UserServiceImpl implements UserService {
 
   }
 
-  /* ******************************************************************************************** */
   @Override
   public ResponseEntity<List<UserDto>> getCards() {
 
@@ -84,7 +81,7 @@ public class UserServiceImpl implements UserService {
 
     return ResponseEntity.status(HttpStatus.OK).body(userDtos);
   }
-  /* ******************************************************************************************** */
+  
   @Override
   public ResponseEntity<CreditCardDto> save(CreditCardDto dto) {
 
@@ -106,7 +103,7 @@ public class UserServiceImpl implements UserService {
 
     return ResponseEntity.status(HttpStatus.OK).body(entity.toDto());
   }
-  /* ******************************************************************************************** */
+  
   @Override
   public ResponseEntity<List<CreditCardDto>> getCards(UUID userId) {
 
@@ -115,7 +112,7 @@ public class UserServiceImpl implements UserService {
 
     return ResponseEntity.status(HttpStatus.OK).body(list);
   }
-  /* ******************************************************************************************** */
+  
   private CreditCardDto updateEntity(CreditCardEntity entity) {
 
     UserEntity userEntity = userRepository.findById(entity.getUserId()).orElseThrow(() ->
