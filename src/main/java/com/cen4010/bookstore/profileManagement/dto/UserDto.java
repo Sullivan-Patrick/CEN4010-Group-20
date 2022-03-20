@@ -1,8 +1,8 @@
 package com.cen4010.bookstore.profileManagement.dto;
 
 import com.cen4010.bookstore.profileManagement.entity.UserEntity;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.util.UUID;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.beans.BeanUtils;
@@ -16,7 +16,7 @@ import javax.validation.constraints.Size;
 @Setter
 public class UserDto {
 
-  private Long id; // given
+  private UUID id = UUID.randomUUID();
 
   // Static Username (email)
   @NotEmpty(message = "Username should not be empty")

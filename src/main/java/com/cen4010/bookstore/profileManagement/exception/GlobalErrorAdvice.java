@@ -55,17 +55,21 @@ public class GlobalErrorAdvice extends ResponseEntityExceptionHandler {
   }
 
   @Override
-  protected ResponseEntity<Object> handleMethodArgumentNotValid
-      (MethodArgumentNotValidException ex, HttpHeaders headers,
-          HttpStatus status,  WebRequest request) {
+  protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,
+      HttpHeaders headers, HttpStatus status,
+      WebRequest request) {
     String message;
-    if (ex.getMessage().contains("Password")){
-      message =
-          "Password must be 8 characters or more, with integers and letters.";
+    if (ex.getMessage().contains("password")){
+      message = "Password must be at least 8 characters mix with numbers and characters";
     }
-    else if(ex.getMessage().contains("Full_Name")){
-      message =
-          "Full_Name cannot contain Numbers or Special Characters.";
+    else if(ex.getMessage().contains("full_name")){
+      message = "Full name must not contain numbers / Special Characters / Empty values are not allowed";
+    }
+    else if(ex.getMessage().contains("card_name")){
+      message = "card_name must not contain numbers / Special Characters / Empty values are not allowed";
+    }
+    else if(ex.getMessage().contains("expiry_date")){
+      message = "expiry_date should be formatted yyyy-MM-dd / Empty values are not allowed";
     }
     else{
       message = ex.getBindingResult().getAllErrors().get(0).getDefaultMessage();
@@ -74,7 +78,7 @@ public class GlobalErrorAdvice extends ResponseEntityExceptionHandler {
     ErrorResponseDto errorResponseDto = ErrorResponseDto.builder()
         .errorCode(Constant.ERR002)
         .message(message)
-        .variable("Error when validating request").build();
+        .variable("Error while validating request").build();
 
     return ResponseEntity.status(status).body(errorResponseDto);
   }
