@@ -4,7 +4,6 @@ import com.cen4010.bookstore.book.Book;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 import javax.naming.LimitExceededException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -61,6 +60,15 @@ public class WishListController {
       @RequestParam UUID wishListId
   ) {
     wishListService.add(bookId, wishListId);
+    return HttpStatus.OK;
+  }
+
+  @PostMapping("to-cart")
+  public HttpStatus toCart(
+      @RequestParam UUID bookId,
+      @RequestParam UUID wishListId
+  ) {
+    wishListService.toCart(bookId, wishListId);
     return HttpStatus.OK;
   }
 

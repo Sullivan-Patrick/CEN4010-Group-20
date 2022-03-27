@@ -46,6 +46,10 @@ public class WishList {
     books.add(book);
   }
 
+  public void removeBook(Book book) {
+    books.remove(book);
+  }
+
   public UUID getId() {
     return id;
   }
