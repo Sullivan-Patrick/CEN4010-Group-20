@@ -1,6 +1,10 @@
 package com.cen4010.bookstore.wishlist;
 
+import com.cen4010.bookstore.book.Book;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 import javax.naming.LimitExceededException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -21,11 +25,25 @@ public class WishListController {
     this.wishListService = wishListService;
   }
 
+  /**
+   * List the books in a user's wishlist
+   */
   @GetMapping("get")
-  public WishList getWishList(@RequestParam UUID uuid) {
-    return wishListService.getWishListById(uuid);
+  public WishList getWishList(@RequestParam UUID wishListId) {
+    return wishListService.getWishListById(wishListId);
   }
 
+  /**
+   * List the books in a user's wishlist
+   */
+  @GetMapping("get/list")
+  public List<Book> getBooksInWishList(@RequestParam UUID wishListId) {
+    return new ArrayList<>(wishListService.getWishListById(wishListId).getBooks());
+  }
+
+  /**
+   * Create a wishlist of books that belongs to user and has a unique name
+   */
   @PostMapping("create")
   public WishList create(
       @RequestParam String name,
@@ -34,6 +52,9 @@ public class WishListController {
     return wishListService.create(name, userid);
   }
 
+  /**
+   * add a book to a user’s wishlist
+   */
   @PostMapping("add")
   public HttpStatus add(
       @RequestParam UUID bookId,
