@@ -10,7 +10,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import org.hibernate.annotations.Type;
-
+//TEST
 
 @Entity
 public class Book {
