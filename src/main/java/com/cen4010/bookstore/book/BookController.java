@@ -1,17 +1,14 @@
 package com.cen4010.bookstore.book;
 
 import java.util.List;
+import java.util.UUID;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping(path = "books")
+@RequestMapping(path ="books")
 public class BookController {
 
   private final BookService bookService;
@@ -20,7 +17,10 @@ public class BookController {
   public BookController(BookService bookService) {
     this.bookService = bookService;
   }
-
+  @GetMapping("/create")
+  public List<Book> getBook(){
+    return bookService.getBook();
+  }
   @GetMapping
   @ResponseBody
   public List<Book> getBook(@RequestParam(required = false) String genre){
@@ -31,6 +31,17 @@ public class BookController {
       List<Book> genreSearch = bookService.findByGenre(genre);
       return genreSearch;
     }
+  }
+
+  @PostMapping("/create")
+  public void createNewBook(@RequestBody Book book){
+    bookService.addNewBook(book);
+  }
+
+  @GetMapping("/author/{author}")
+  public List<Book> getAuthor(@PathVariable("author") String author){
+    List<Book> authorSearch = bookService.findByAuthor(author);
+    return authorSearch;
   }
 
   @GetMapping("/genre/{genre}")

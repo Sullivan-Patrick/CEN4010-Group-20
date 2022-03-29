@@ -1,11 +1,22 @@
 package com.cen4010.bookstore.book;
 
 import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.UUID;
+import java.util.stream.Collectors;
+
+import org.hibernate.validator.constraints.ISBN;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
+import javax.naming.LimitExceededException;
+import javax.persistence.Table;
+import javax.transaction.Transactional;
 
 @Service
 public class BookService {
@@ -21,12 +32,25 @@ public class BookService {
     return bookRepository.findAll();
   }
 
+  public void addNewBook(Book book){
+    Optional<Book> bookOptional = bookRepository.findBookByIsbn(book.getIsbn());
+    if(bookOptional.isPresent()){
+      throw new IllegalStateException("ISBN already exists.");
+    }
+    bookRepository.save(book);
+  }
+
+
   public List<Book> findByGenre(String genre){
     return bookRepository.findByGenre(genre);
   }
 
   public  List<Book> findMostSold(){
     return bookRepository.findTop10ByOrderByCopiesSoldDesc();
+  }
+
+  public List<Book> findByAuthor(String author){
+    return bookRepository.findByAuthor(author);
   }
 
   public Page<Book> pageSearch(int page, int size){
