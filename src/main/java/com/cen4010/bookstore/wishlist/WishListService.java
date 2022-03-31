@@ -26,7 +26,7 @@ public class WishListService {
   public WishList create(String name, UUID userId) throws LimitExceededException {
     //todo: make this use JPA to filter once user dao is made
     List<WishList> wishLists = wishListRepository.findAll().stream()
-        .filter(wishList -> wishList.getId().equals(userId))
+        .filter(wishList -> wishList.getUserId().equals(userId))
         .collect(Collectors.toList());
 
     validateNewWishList(wishLists);
@@ -43,7 +43,7 @@ public class WishListService {
         new ResponseStatusException(HttpStatus.BAD_REQUEST));
   }
 
-  //todo: move filtering logic to repository
+  //todo: use this method and make an endpoint for it
   public List<WishList> getUserWishLists(UUID userId) {
     return wishListRepository.findAll().stream()
         .filter(wishList -> wishList.getUserId().equals(userId))
@@ -67,4 +67,16 @@ public class WishListService {
   }
 
 
+  public void toCart(UUID bookId, UUID wishListId) {
+    Book book =  bookRepository.getById(bookId);
+    WishList wishList = wishListRepository.getById(wishListId);
+
+    if (!wishList.getBooks().contains(book)) {
+      throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+    }
+
+    wishList.removeBook(book);
+    System.out.println("Adding to mock shopping cart!");
+    wishListRepository.save(wishList);
+  }
 }
