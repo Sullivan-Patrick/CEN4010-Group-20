@@ -1,5 +1,6 @@
 package com.cen4010.bookstore.book;
 
+import com.cen4010.bookstore.profileManagement.entity.UserEntity;
 import com.cen4010.bookstore.wishlist.WishList;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.util.HashSet;
@@ -33,10 +34,13 @@ public class Book {
   @ManyToMany(mappedBy = "books")
   private Set<WishList> wishListsWithBook = new HashSet<>();
 
+  @ManyToMany(mappedBy = "booksInCart")
+  private Set<UserEntity> bookInCart = new HashSet<>();
+
 
   public Book(UUID id, String ISBN, String name, String description, double price,
       String author, String genre, String publisher, int yearPublished, int copiesSold,
-      Set<WishList> wishListsWithBook) {
+      Set<WishList> wishListsWithBook, Set<UserEntity> bookInCart) {
     this.id = id;
     this.ISBN = ISBN;
     this.name = name;
@@ -48,6 +52,7 @@ public class Book {
     this.yearPublished = yearPublished;
     this.copiesSold = copiesSold;
     this.wishListsWithBook = wishListsWithBook;
+    this.bookInCart = bookInCart;
   }
 
   public Book(UUID id, String ISBN, String name, String description, double price,
@@ -109,6 +114,10 @@ public class Book {
 
   public Set<WishList> getWishListsWithBook() {
     return wishListsWithBook;
+  }
+
+  public Set<UserEntity> getBookInCart() {
+    return bookInCart;
   }
 
   @Override

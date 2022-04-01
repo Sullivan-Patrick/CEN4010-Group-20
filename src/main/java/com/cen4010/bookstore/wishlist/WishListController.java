@@ -74,9 +74,10 @@ public class WishListController {
   @PostMapping("to-cart")
   public HttpStatus toCart(
       @RequestParam UUID bookId,
-      @RequestParam UUID wishListId
+      @RequestParam UUID wishListId,
+      @RequestParam UUID userId
   ) {
-    wishListService.toCart(bookId, wishListId);
+    wishListService.toCart(bookId, wishListId, userId);
     return HttpStatus.OK;
   }
 

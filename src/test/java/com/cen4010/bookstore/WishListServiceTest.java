@@ -9,6 +9,8 @@ import static org.mockito.Mockito.when;
 
 import com.cen4010.bookstore.book.Book;
 import com.cen4010.bookstore.book.BookRepository;
+import com.cen4010.bookstore.profileManagement.entity.UserEntity;
+import com.cen4010.bookstore.profileManagement.repository.UserRepository;
 import com.cen4010.bookstore.wishlist.WishList;
 import com.cen4010.bookstore.wishlist.WishListRepository;
 import com.cen4010.bookstore.wishlist.WishListService;
@@ -38,6 +40,9 @@ public class WishListServiceTest {
   private BookRepository bookRepository;
 
   @Mock
+  private UserRepository userRepository;
+
+  @Mock
   private WishList wishList;
 
   @Mock
@@ -46,9 +51,12 @@ public class WishListServiceTest {
   @Mock
   private Book book;
 
+  @Mock
+  private UserEntity user;
+
   @BeforeEach
   public void setup() {
-    wishListService = new WishListService(wishListRepository, bookRepository);
+    wishListService = new WishListService(wishListRepository, bookRepository, userRepository);
   }
 
   @Test
@@ -102,11 +110,14 @@ public class WishListServiceTest {
     when(bookRepository.getById(A_BOOK_UUID)).thenReturn(book);
     when(wishListRepository.getById(A_WISHLIST_UUID)).thenReturn(wishList);
     when(wishList.getBooks()).thenReturn(Set.of(book));
+    when(userRepository.findById(A_USER_UUID)).thenReturn(Optional.of(user));
 
-    wishListService.toCart(A_BOOK_UUID, A_WISHLIST_UUID);
+    wishListService.toCart(A_BOOK_UUID, A_WISHLIST_UUID, A_USER_UUID);
 
     verify(wishList).removeBook(book);
     verify(wishListRepository).save(wishList);
+    verify(user).addBookToCart(book);
+    verify(userRepository).save(user);
   }
 
 }
