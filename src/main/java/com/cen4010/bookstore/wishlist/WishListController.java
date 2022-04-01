@@ -33,6 +33,14 @@ public class WishListController {
   }
 
   /**
+   * Not part of the required API. Gets wishlists associated with a specific user
+   */
+  @GetMapping("get-for-user")
+  public List<WishList> getUserWishLists(@RequestParam UUID userId) {
+    return wishListService.getUserWishLists(userId);
+  }
+
+  /**
    * List the books in a user's wishlist
    */
   @GetMapping("get/list")
