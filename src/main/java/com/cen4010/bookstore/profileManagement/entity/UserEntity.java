@@ -1,7 +1,10 @@
 package com.cen4010.bookstore.profileManagement.entity;
 
+import com.cen4010.bookstore.book.Book;
 import com.cen4010.bookstore.profileManagement.dto.UserDto;
 
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 import lombok.Getter;
 import lombok.Setter;
@@ -25,6 +28,15 @@ public class UserEntity {
 
   @Column(name = "Full_Name")
   private String fullName;
+
+  @ManyToMany
+  @JoinTable(
+      name = "in_shopping_cart",
+      joinColumns = @JoinColumn(name = "user_id"),
+      inverseJoinColumns = @JoinColumn(name = "book_id")
+  )
+  private Set<Book> booksInCart = new HashSet<>();
+
 /*
   Might add phone number and shipping address to bulk it up
 */
@@ -32,5 +44,9 @@ public class UserEntity {
     UserDto entity = new UserDto();
     BeanUtils.copyProperties(this, entity);
     return entity;
+  }
+
+  public void addBookToCart(Book book) {
+    booksInCart.add(book);
   }
 }
