@@ -17,7 +17,7 @@ public class BookController {
   public BookController(BookService bookService) {
     this.bookService = bookService;
   }
-  @GetMapping("/create")
+  @GetMapping("/getBooks")
   public List<Book> getBook(){
     return bookService.getBook();
   }
@@ -34,8 +34,8 @@ public class BookController {
   }
 
   @PostMapping("/create")
-  public void createNewBook(@RequestBody Book book){
-    bookService.addNewBook(book);
+  public void createBook(@RequestBody Book book){
+    bookService.addBook(book);
   }
 
   @GetMapping("/author/{author}")

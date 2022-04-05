@@ -6,7 +6,7 @@ import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-import org.hibernate.validator.constraints.ISBN;
+//import org.hibernate.validator.constraints.ISBN;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -31,7 +31,7 @@ public class BookService {
     return bookRepository.findAll();
   }
 
-  public void addNewBook(Book book){
+  public void addBook(Book book){
     Optional<Book> bookOptional = bookRepository.findBookByIsbn(book.getIsbn());
     if(bookOptional.isPresent()){
       throw new IllegalStateException("ISBN already exists.");

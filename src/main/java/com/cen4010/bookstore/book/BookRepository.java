@@ -18,7 +18,7 @@ public interface BookRepository extends JpaRepository<Book, UUID> {
 
     List<Book> findByAuthor(String author);
 
-    @Query("Select s FROM bookstore s WHERE s.ISBN = ?1")
+    @Query("Select s FROM Book s WHERE s.ISBN = ?1")
     Optional<Book> findBookByIsbn(String ISBN);
 
 }

@@ -1,7 +1,6 @@
 package com.cen4010.bookstore.book;
 
 import com.cen4010.bookstore.wishlist.WishList;
-import com.cen4010.bookstore.wishlist.WishList;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.Type;
 
@@ -11,14 +10,15 @@ import java.util.UUID;
 import javax.persistence.*;
 
 
-@Entity(name = "bookstore")
-@Table(name = "book")
+@Entity
+@Table
 public class Book {
 
   @Id
+  @GeneratedValue
   @Column(name = "id")
   @Type(type = "uuid-char")
-  private UUID id = UUID.randomUUID();
+  private UUID id;
   private String ISBN;
   private String name;
   private String description;
@@ -33,11 +33,12 @@ public class Book {
   @JsonIgnore
   @ManyToMany(mappedBy = "books")
   private Set<WishList> wishListsWithBook = new HashSet<>();
+
   public Book(){
 
   }
 
-  public Book(UUID id, String ISBN, String name, String description, double price,
+   public Book(UUID id, String ISBN, String name, String description, double price,
       String author, String genre, String publisher, int yearPublished, int copiesSold, Set<WishList> wishListsWithBook) {
     this.id = id;
     this.ISBN = ISBN;
@@ -52,7 +53,7 @@ public class Book {
     this.wishListsWithBook = wishListsWithBook;
   }
 
-  public Book(UUID id, String ISBN, String name, String description, double price,
+   public Book(UUID id, String ISBN, String name, String description, double price,
       String author, String genre, String publisher, int yearPublished, int copiesSold) {
     this.id = id;
     this.ISBN = ISBN;
@@ -65,20 +66,6 @@ public class Book {
     this.yearPublished = yearPublished;
     this.copiesSold = copiesSold;
   }
-
-    public Book(String ISBN, String name, String description, double price,
-              String author, String genre, String publisher, int yearPublished, int copiesSold) {
-    this.ISBN = ISBN;
-    this.name = name;
-    this.description = description;
-    this.price = price;
-    this.author = author;
-    this.genre = genre;
-    this.publisher = publisher;
-    this.yearPublished = yearPublished;
-    this.copiesSold = copiesSold;
-  }
-
 
 
   public UUID getId() {
@@ -161,31 +148,17 @@ public class Book {
     this.copiesSold = copiesSold;
   }
 
- /* public Set<WishList> getWishListsWithBook() {
+  public Set<WishList> getWishListsWithBook() {
     return wishListsWithBook;
-  }*/
+  }
 
-  /*@Override
+  @Override
   public String toString() {
     return "Book{" +
-        "The isbn is=" + ISBN +
+        "The ISBN is=" + ISBN +
         ", Name='" + name + '\'' +
         ", wishListsWithBook=" + wishListsWithBook +
         '}';
-  }*/
-  @Override
-  public String toString(){
-    return "Book Information {" +
-            "Book ID= " + id +
-            ", ISBN=" + ISBN + '\'' +
-            ", Title=" + name + '\'' +
-            ", Description=" + description + '\'' +
-            ", Price=" + price + '\'' +
-            ", Author=" + author + '\'' +
-            ", Genre=" + genre + '\'' +
-            ", Publisher=" + publisher + '\'' +
-            ", Year Published=" + yearPublished + '\'' +
-            ", Copies Sold=" + copiesSold +
-            '}';
   }
+
 }
