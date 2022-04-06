@@ -43,8 +43,8 @@ public class Book {
   }
 
    public Book(UUID id, String ISBN, String name, String description, double price,
-      String author, String genre, String publisher, int yearPublished, int copiesSold, Set<WishList> wishListsWithBook,
-               Set<UserEntity> bookInCart) {
+      String author, String genre, String publisher, int yearPublished, int copiesSold,
+               Set<WishList> wishListsWithBook, Set<UserEntity> bookInCart) {
     this.id = id;
     this.ISBN = ISBN;
     this.name = name;
@@ -73,8 +73,7 @@ public class Book {
     this.copiesSold = copiesSold;
   }
 
-
-  public UUID getId() {
+    public UUID getId() {
     return id;
   }
 

@@ -1,9 +1,6 @@
 package com.cen4010.bookstore.book;
 
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 
 //import org.hibernate.validator.constraints.ISBN;
@@ -32,9 +29,9 @@ public class BookService {
   }
 
   public void addBook(Book book){
-    Optional<Book> bookOptional = bookRepository.findBookByIsbn(book.getIsbn());
+    Optional<Book> bookOptional = bookRepository.confirmBookByIsbn(book.getIsbn());
     if(bookOptional.isPresent()){
-      throw new IllegalStateException("ISBN already exists.");
+      throw new IllegalStateException("The book's ISBN already exists.");
     }
     bookRepository.save(book);
   }
@@ -50,6 +47,10 @@ public class BookService {
 
   public List<Book> findBooksByAuthor(String author){
     return bookRepository.findBooksByAuthor(author);
+  }
+
+  public List<Book> findBookByIsbn(String ISBN){
+    return bookRepository.findBookByIsbn(ISBN);
   }
 
   public Page<Book> pageSearch(int page, int size){

@@ -20,7 +20,7 @@ public class BookController {
 
   @GetMapping
   @ResponseBody
-  public List<Book> getBook(@RequestParam(required = false) String genre){
+  public List<Book> getBook(@RequestParam(required = false) String genre, String ISBN){
     if (genre == null){
       return bookService.getBook();
     }
@@ -35,11 +35,18 @@ public class BookController {
     bookService.addBook(book);
   }
 
-  @GetMapping("/authorBooks/{author}")
+  @GetMapping("/byAuthor/{author}")
   public List<Book> getAuthor(@PathVariable("author") String author){
     List<Book> authorSearch = bookService.findBooksByAuthor(author);
     return authorSearch;
   }
+
+  @GetMapping("/byIsbn/{ISBN}")
+  public List<Book> getBookByIsbn(@PathVariable("ISBN") String ISBN){
+    List<Book> isbnSearch = bookService.findBookByIsbn(ISBN);
+    return isbnSearch;
+  }
+
 
   @GetMapping("/genre/{genre}")
   public List<Book> getGenre(@PathVariable("genre") String genre){
