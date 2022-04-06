@@ -20,7 +20,7 @@ public class BookController {
 
   @GetMapping
   @ResponseBody
-  public List<Book> getBook(@RequestParam(required = false) String genre, String ISBN){
+  public List<Book> getBook(@RequestParam(required = false) String genre){
     if (genre == null){
       return bookService.getBook();
     }
