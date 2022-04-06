@@ -17,10 +17,7 @@ public class BookController {
   public BookController(BookService bookService) {
     this.bookService = bookService;
   }
-  @GetMapping("/getBooks")
-  public List<Book> getBook(){
-    return bookService.getBook();
-  }
+
   @GetMapping
   @ResponseBody
   public List<Book> getBook(@RequestParam(required = false) String genre){
@@ -38,9 +35,9 @@ public class BookController {
     bookService.addBook(book);
   }
 
-  @GetMapping("/author/{author}")
+  @GetMapping("/authorBooks/{author}")
   public List<Book> getAuthor(@PathVariable("author") String author){
-    List<Book> authorSearch = bookService.findByAuthor(author);
+    List<Book> authorSearch = bookService.findBooksByAuthor(author);
     return authorSearch;
   }
 

@@ -48,8 +48,8 @@ public class BookService {
     return bookRepository.findTop10ByOrderByCopiesSoldDesc();
   }
 
-  public List<Book> findByAuthor(String author){
-    return bookRepository.findByAuthor(author);
+  public List<Book> findBooksByAuthor(String author){
+    return bookRepository.findBooksByAuthor(author);
   }
 
   public Page<Book> pageSearch(int page, int size){

@@ -35,12 +35,16 @@ public class Book {
   @ManyToMany(mappedBy = "books")
   private Set<WishList> wishListsWithBook = new HashSet<>();
 
+  @ManyToMany(mappedBy = "booksInCart")
+  private Set<UserEntity> bookInCart = new HashSet<>();
+
   public Book(){
 
   }
 
    public Book(UUID id, String ISBN, String name, String description, double price,
-      String author, String genre, String publisher, int yearPublished, int copiesSold, Set<WishList> wishListsWithBook) {
+      String author, String genre, String publisher, int yearPublished, int copiesSold, Set<WishList> wishListsWithBook,
+               Set<UserEntity> bookInCart) {
     this.id = id;
     this.ISBN = ISBN;
     this.name = name;

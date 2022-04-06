@@ -16,7 +16,7 @@ public interface BookRepository extends JpaRepository<Book, UUID> {
 
     List<Book> findTop10ByOrderByCopiesSoldDesc();
 
-    List<Book> findByAuthor(String author);
+    List<Book> findBooksByAuthor(String author);
 
     @Query("Select s FROM Book s WHERE s.ISBN = ?1")
     Optional<Book> findBookByIsbn(String ISBN);
