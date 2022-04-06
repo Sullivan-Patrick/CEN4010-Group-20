@@ -2,6 +2,8 @@ package com.cen4010.bookstore.wishlist;
 
 import com.cen4010.bookstore.book.Book;
 import com.cen4010.bookstore.book.BookRepository;
+import com.cen4010.bookstore.profileManagement.entity.UserEntity;
+import com.cen4010.bookstore.profileManagement.repository.UserRepository;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -16,17 +18,22 @@ public class WishListService {
 
   private final WishListRepository wishListRepository;
   private final BookRepository bookRepository;
+  private final UserRepository userRepository;
 
   @Autowired
-  public WishListService(WishListRepository wishListRepository, BookRepository bookRepository) {
+  public WishListService(WishListRepository wishListRepository,
+      BookRepository bookRepository,
+      UserRepository userRepository
+  ) {
     this.wishListRepository = wishListRepository;
     this.bookRepository = bookRepository;
+    this.userRepository = userRepository;
   }
 
   public WishList create(String name, UUID userId) throws LimitExceededException {
     //todo: make this use JPA to filter once user dao is made
     List<WishList> wishLists = wishListRepository.findAll().stream()
-        .filter(wishList -> wishList.getId().equals(userId))
+        .filter(wishList -> wishList.getUserId().equals(userId))
         .collect(Collectors.toList());
 
     validateNewWishList(wishLists);
@@ -43,7 +50,7 @@ public class WishListService {
         new ResponseStatusException(HttpStatus.BAD_REQUEST));
   }
 
-  //todo: move filtering logic to repository
+  //todo: use this method and make an endpoint for it
   public List<WishList> getUserWishLists(UUID userId) {
     return wishListRepository.findAll().stream()
         .filter(wishList -> wishList.getUserId().equals(userId))
@@ -67,4 +74,19 @@ public class WishListService {
   }
 
 
+  public void toCart(UUID bookId, UUID wishListId, UUID userId) {
+    Book book =  bookRepository.getById(bookId);
+    WishList wishList = wishListRepository.getById(wishListId);
+    UserEntity user = userRepository.findById(userId).get();
+
+    if (!wishList.getBooks().contains(book)) {
+      throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+    }
+
+    wishList.removeBook(book);
+    user.addBookToCart(book);
+
+    userRepository.save(user);
+    wishListRepository.save(wishList);
+  }
 }
