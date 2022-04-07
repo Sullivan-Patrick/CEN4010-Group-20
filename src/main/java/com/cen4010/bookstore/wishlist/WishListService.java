@@ -6,7 +6,6 @@ import com.cen4010.bookstore.profileManagement.entity.UserEntity;
 import com.cen4010.bookstore.profileManagement.repository.UserRepository;
 import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 import javax.naming.LimitExceededException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -31,12 +30,9 @@ public class WishListService {
   }
 
   public WishList create(String name, UUID userId) throws LimitExceededException {
-    //todo: make this use JPA to filter once user dao is made
-    List<WishList> wishLists = wishListRepository.findAll().stream()
-        .filter(wishList -> wishList.getUserId().equals(userId))
-        .collect(Collectors.toList());
+    List<WishList> wishLists = wishListRepository.findByUserId(userId);
 
-    validateNewWishList(wishLists);
+    validateNewWishList(wishLists, name);
 
     return wishListRepository.save(new WishList(
         UUID.randomUUID(),
@@ -46,15 +42,11 @@ public class WishListService {
   }
 
   public WishList getWishListById(UUID wishlistId) {
-    return wishListRepository.findById(wishlistId).orElseThrow(() ->
-        new ResponseStatusException(HttpStatus.BAD_REQUEST));
+    return wishListRepository.getById(wishlistId);
   }
 
-  //todo: use this method and make an endpoint for it
   public List<WishList> getUserWishLists(UUID userId) {
-    return wishListRepository.findAll().stream()
-        .filter(wishList -> wishList.getUserId().equals(userId))
-        .collect(Collectors.toList());
+    return wishListRepository.findByUserId(userId);
   }
 
   public void add(UUID bookId, UUID wishListId) {
@@ -64,20 +56,11 @@ public class WishListService {
     wishListRepository.save(wishList);
   }
 
-  //todo: validate user exists, wishlist name isnt used yet
-  private void validateNewWishList(
-      List<WishList> wishLists
-  ) throws LimitExceededException {
-    if (wishLists.size() >= 3) {
-      throw new LimitExceededException("User cannot have more than 3 wishlists");
-    }
-  }
-
-
   public void toCart(UUID bookId, UUID wishListId, UUID userId) {
+
     Book book =  bookRepository.getById(bookId);
     WishList wishList = wishListRepository.getById(wishListId);
-    UserEntity user = userRepository.findById(userId).get();
+    UserEntity user = userRepository.findById(userId).orElseThrow(IllegalArgumentException::new);
 
     if (!wishList.getBooks().contains(book)) {
       throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
@@ -88,5 +71,15 @@ public class WishListService {
 
     userRepository.save(user);
     wishListRepository.save(wishList);
+  }
+
+  private void validateNewWishList(List<WishList> wishLists, String proposedName)
+      throws LimitExceededException {
+    if (wishLists.size() >= 3) {
+      throw new LimitExceededException("User cannot have more than 3 wishlists");
+    }
+    if (wishLists.stream().anyMatch(list -> list.getName().equals(proposedName))) {
+      throw new IllegalArgumentException("Wishlist of same type already made");
+    }
   }
 }
