@@ -29,7 +29,7 @@ public class Book {
   private String publisher;
   private int yearPublished;
   private int copiesSold;
-  //private final double rating;
+  private double rating;
   @JsonIgnore
   @ManyToMany(mappedBy = "books")
   private Set<WishList> wishListsWithBook = new HashSet<>();
@@ -39,7 +39,7 @@ public class Book {
 
 
   public Book(UUID id, String ISBN, String name, String description, double price,
-      String author, String genre, String publisher, int yearPublished, int copiesSold,
+      String author, String genre, String publisher, int yearPublished, int copiesSold, double rating,
       Set<WishList> wishListsWithBook, Set<UserEntity> bookInCart) {
     this.id = id;
     this.ISBN = ISBN;
@@ -51,12 +51,13 @@ public class Book {
     this.publisher = publisher;
     this.yearPublished = yearPublished;
     this.copiesSold = copiesSold;
+    this.rating = rating;
     this.wishListsWithBook = wishListsWithBook;
     this.bookInCart = bookInCart;
   }
 
   public Book(UUID id, String ISBN, String name, String description, double price,
-      String author, String genre, String publisher, int yearPublished, int copiesSold) {
+      String author, String genre, String publisher, int yearPublished, int copiesSold, double rating) {
     this.id = id;
     this.ISBN = ISBN;
     this.name = name;
@@ -67,6 +68,7 @@ public class Book {
     this.publisher = publisher;
     this.yearPublished = yearPublished;
     this.copiesSold = copiesSold;
+    this.rating = rating;
   }
 
   public Book() {
@@ -110,6 +112,10 @@ public class Book {
 
   public int getCopiesSold() {
     return copiesSold;
+  }
+
+  public double getRating() {
+    return rating;
   }
 
   public Set<WishList> getWishListsWithBook() {

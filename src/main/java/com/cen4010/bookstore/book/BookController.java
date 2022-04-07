@@ -52,4 +52,10 @@ public class BookController {
     return getBookPage;
   }
 
+  @GetMapping("/ratings")
+  public List<Book> limitByRating(@RequestParam(defaultValue = "0") double limit){
+    List<Book> ratingSearch = bookService.limitByRating(limit);
+    return ratingSearch;
+  }
+
 }
