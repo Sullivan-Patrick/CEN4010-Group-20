@@ -1,17 +1,17 @@
 package com.cen4010.bookstore.book;
 
 import java.util.List;
+import java.util.UUID;
+
+import org.hibernate.validator.constraints.ISBN;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import javax.naming.LimitExceededException;
 
 @RestController
-@RequestMapping(path = "books")
+@RequestMapping(path ="books")
 public class BookController {
 
   private final BookService bookService;
@@ -23,7 +23,7 @@ public class BookController {
 
   @GetMapping
   @ResponseBody
-  public List<Book> getBook(@RequestParam(required = false) String genre){
+  public List<Book> getBook(@RequestParam(required = false) String genre) {
     if (genre == null){
       return bookService.getBook();
     }
@@ -32,6 +32,24 @@ public class BookController {
       return genreSearch;
     }
   }
+
+  @PostMapping("/create")
+  public void createBook(@RequestBody Book book){
+    bookService.addBook(book);
+  }
+
+  @GetMapping("/byAuthor/{author}")
+  public List<Book> getAuthor(@PathVariable("author") String author){
+    List<Book> authorSearch = bookService.findBooksByAuthor(author);
+    return authorSearch;
+  }
+
+  @GetMapping("/byIsbn/{ISBN}")
+  public List<Book> getBookByIsbn(@PathVariable("ISBN") String ISBN){
+    List<Book> isbnSearch = bookService.findBookByIsbn(ISBN);
+    return isbnSearch;
+  }
+
 
   @GetMapping("/genre/{genre}")
   public List<Book> getGenre(@PathVariable("genre") String genre){
