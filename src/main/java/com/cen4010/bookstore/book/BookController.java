@@ -3,9 +3,12 @@ package com.cen4010.bookstore.book;
 import java.util.List;
 import java.util.UUID;
 
+import org.hibernate.validator.constraints.ISBN;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
+
+import javax.naming.LimitExceededException;
 
 @RestController
 @RequestMapping(path ="books")
@@ -20,7 +23,7 @@ public class BookController {
 
   @GetMapping
   @ResponseBody
-  public List<Book> getBook(@RequestParam(required = false) String genre){
+  public List<Book> getBook(@RequestParam(required = false) String genre) {
     if (genre == null){
       return bookService.getBook();
     }

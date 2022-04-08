@@ -6,10 +6,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
+import javax.persistence.*;
+
 import org.hibernate.annotations.Type;
 
 
@@ -17,6 +15,7 @@ import org.hibernate.annotations.Type;
 public class Book {
 
   @Id
+  @GeneratedValue
   @Column(name = "id")
   @Type(type = "uuid-char")
   private UUID id;
@@ -79,7 +78,11 @@ public class Book {
   }
 
   public String getIsbn() {
-    return ISBN;
+    return ISBN ;
+  }
+
+  public void setIsbn(String ISBN){
+    this.ISBN = ISBN;
   }
 
   public String getName() {

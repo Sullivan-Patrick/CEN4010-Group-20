@@ -1,7 +1,6 @@
 package com.cen4010.bookstore.book;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 //import org.hibernate.validator.constraints.ISBN;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,10 +8,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
-import javax.naming.LimitExceededException;
-import javax.persistence.Table;
-import javax.transaction.Transactional;
 
 @Service
 public class BookService {
@@ -30,12 +25,11 @@ public class BookService {
 
   public void addBook(Book book){
     Optional<Book> bookOptional = bookRepository.confirmBookByIsbn(book.getIsbn());
-    if(bookOptional.isPresent()){
-      throw new IllegalStateException("The book's ISBN already exists.");
-    }
+    if (bookOptional.isPresent()){
+        throw new IllegalStateException("The book's ISBN already exists.");
+      }
     bookRepository.save(book);
   }
-
 
   public List<Book> findByGenre(String genre){
     return bookRepository.findByGenre(genre);
@@ -52,6 +46,7 @@ public class BookService {
   public List<Book> findBookByIsbn(String ISBN){
     return bookRepository.findBookByIsbn(ISBN);
   }
+
 
   public Page<Book> pageSearch(int page, int size){
     Pageable pageable = PageRequest.of(page, size);
