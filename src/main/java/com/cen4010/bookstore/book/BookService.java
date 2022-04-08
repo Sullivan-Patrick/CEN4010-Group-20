@@ -25,7 +25,7 @@ public class BookService {
     return bookRepository.findByGenre(genre);
   }
 
-  public  List<Book> findMostSold(){
+  public List<Book> findMostSold(){
     return bookRepository.findTop10ByOrderByCopiesSoldDesc();
   }
 
@@ -35,4 +35,7 @@ public class BookService {
     return pageResults;
   }
 
+  public List<Book> limitByRating(double rating){
+    return bookRepository.findByRatingGreaterThanEqualOrderByRatingDesc(rating);
+  }
 }
