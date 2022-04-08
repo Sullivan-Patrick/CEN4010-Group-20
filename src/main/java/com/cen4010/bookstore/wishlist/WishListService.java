@@ -79,7 +79,7 @@ public class WishListService {
       throw new LimitExceededException("User cannot have more than 3 wishlists");
     }
     if (wishLists.stream().anyMatch(list -> list.getName().equals(proposedName))) {
-      throw new IllegalArgumentException("Wishlist of same type already made");
+      throw new IllegalArgumentException("Wishlist of same name already exists");
     }
   }
 }
