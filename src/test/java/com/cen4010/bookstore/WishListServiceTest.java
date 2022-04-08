@@ -61,7 +61,6 @@ public class WishListServiceTest {
 
   @Test
   public void itCreatesWishList() throws LimitExceededException {
-    when(wishListRepository.findAll()).thenReturn(List.of());
     when(wishList.getUserId()).thenReturn(A_USER_UUID);
     when(wishList.getName()).thenReturn(A_WISHLIST_NAME);
     when(wishListRepository.save(
@@ -78,7 +77,7 @@ public class WishListServiceTest {
 
   @Test
   public void itGetsWishListById() {
-    when(wishListRepository.findById(A_WISHLIST_UUID)).thenReturn(Optional.of(wishList));
+    when(wishListRepository.getById(A_WISHLIST_UUID)).thenReturn(wishList);
     WishList result = wishListService.getWishListById(A_WISHLIST_UUID);
 
     assertEquals(result, wishList);
@@ -86,9 +85,7 @@ public class WishListServiceTest {
 
   @Test
   public void itGetsWishListsForUser() {
-    when(wishListRepository.findAll()).thenReturn(List.of(wishList, wishList2));
-    when(wishList.getUserId()).thenReturn(A_USER_UUID);
-    when(wishList2.getUserId()).thenReturn(A_USER_UUID);
+    when(wishListRepository.findByUserId(A_USER_UUID)).thenReturn(List.of(wishList, wishList2));
     List<WishList> result = wishListService.getUserWishLists(A_USER_UUID);
 
     assertEquals(result, List.of(wishList, wishList2));

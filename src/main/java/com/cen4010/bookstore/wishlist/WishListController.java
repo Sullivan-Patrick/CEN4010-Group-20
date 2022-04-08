@@ -52,7 +52,7 @@ public class WishListController {
    * Create a wishlist of books that belongs to user and has a unique name
    */
   @PostMapping("create")
-  public WishList create(
+  public WishList createWishList(
       @RequestParam String name,
       @RequestParam UUID userid
   ) throws LimitExceededException {
@@ -63,7 +63,7 @@ public class WishListController {
    * add a book to a user’s wishlist
    */
   @PostMapping("add")
-  public HttpStatus add(
+  public HttpStatus addToWishList(
       @RequestParam UUID bookId,
       @RequestParam UUID wishListId
   ) {
@@ -72,7 +72,7 @@ public class WishListController {
   }
 
   @PostMapping("to-cart")
-  public HttpStatus toCart(
+  public HttpStatus removeFromWishListToCart(
       @RequestParam UUID bookId,
       @RequestParam UUID wishListId,
       @RequestParam UUID userId
