@@ -3,20 +3,20 @@ package com.cen4010.bookstore.book;
 import com.cen4010.bookstore.profileManagement.entity.UserEntity;
 import com.cen4010.bookstore.wishlist.WishList;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import org.hibernate.annotations.Type;
-
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import org.hibernate.annotations.Type;
 
 
 @Entity
-@Table
 public class Book {
 
   @Id
-  @GeneratedValue
   @Column(name = "id")
   @Type(type = "uuid-char")
   private UUID id;
@@ -29,8 +29,7 @@ public class Book {
   private String publisher;
   private int yearPublished;
   private int copiesSold;
-  //private final double rating;
-
+  private double rating;
   @JsonIgnore
   @ManyToMany(mappedBy = "books")
   private Set<WishList> wishListsWithBook = new HashSet<>();
@@ -38,13 +37,10 @@ public class Book {
   @ManyToMany(mappedBy = "booksInCart")
   private Set<UserEntity> bookInCart = new HashSet<>();
 
-  public Book(){
 
-  }
-
-   public Book(UUID id, String ISBN, String name, String description, double price,
-      String author, String genre, String publisher, int yearPublished, int copiesSold,
-               Set<WishList> wishListsWithBook, Set<UserEntity> bookInCart) {
+  public Book(UUID id, String ISBN, String name, String description, double price,
+      String author, String genre, String publisher, int yearPublished, int copiesSold, double rating,
+      Set<WishList> wishListsWithBook, Set<UserEntity> bookInCart) {
     this.id = id;
     this.ISBN = ISBN;
     this.name = name;
@@ -55,12 +51,13 @@ public class Book {
     this.publisher = publisher;
     this.yearPublished = yearPublished;
     this.copiesSold = copiesSold;
+    this.rating = rating;
     this.wishListsWithBook = wishListsWithBook;
     this.bookInCart = bookInCart;
   }
 
-   public Book(UUID id, String ISBN, String name, String description, double price,
-      String author, String genre, String publisher, int yearPublished, int copiesSold) {
+  public Book(UUID id, String ISBN, String name, String description, double price,
+      String author, String genre, String publisher, int yearPublished, int copiesSold, double rating) {
     this.id = id;
     this.ISBN = ISBN;
     this.name = name;
@@ -71,86 +68,54 @@ public class Book {
     this.publisher = publisher;
     this.yearPublished = yearPublished;
     this.copiesSold = copiesSold;
+    this.rating = rating;
   }
 
-    public UUID getId() {
+  public Book() {
+  }
+
+  public UUID getId() {
     return id;
-  }
-
-  public void setId(UUID id){
-    this.id = id;
   }
 
   public String getIsbn() {
     return ISBN;
   }
 
-  public void setIsbn(String ISBN){
-    this.ISBN = ISBN;
-  }
-
   public String getName() {
     return name;
-  }
-
-  public void setName(String name){
-    this.name = name;
   }
 
   public String getDescription() {
     return description;
   }
 
-  public void setDescription(String description){
-    this.description = description;
-  }
-
   public double getPrice() {
     return price;
-  }
-
-  public void setPrice(double price){
-    this.price = price;
   }
 
   public String getAuthor() {
     return author;
   }
 
-  public void setAuthor(String author){
-    this.author = author;
-  }
-
   public String getGenre() {
     return genre;
-  }
-
-  public void setGenre(String genre){
-    this.genre = genre;
   }
 
   public String getPublisher() {
     return publisher;
   }
 
-  public void setPublisher(String publisher){
-    this.publisher = publisher;
-  }
-
   public int getYearPublished() {
     return yearPublished;
-  }
-
-  public void setYearPublished(int yearPublished){
-    this.yearPublished = yearPublished;
   }
 
   public int getCopiesSold() {
     return copiesSold;
   }
 
-  public void setCopiesSold(int copiesSold){
-    this.copiesSold = copiesSold;
+  public double getRating() {
+    return rating;
   }
 
   public Set<WishList> getWishListsWithBook() {
@@ -164,10 +129,9 @@ public class Book {
   @Override
   public String toString() {
     return "Book{" +
-        "The ISBN is=" + ISBN +
+        "The isbn is=" + ISBN +
         ", Name='" + name + '\'' +
         ", wishListsWithBook=" + wishListsWithBook +
         '}';
   }
-
 }
