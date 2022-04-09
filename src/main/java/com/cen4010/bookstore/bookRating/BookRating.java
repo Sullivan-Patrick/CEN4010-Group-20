@@ -2,35 +2,37 @@ package com.cen4010.bookstore.bookRating;
 
 import org.springframework.data.annotation.Id;
 
+
 import java.time.LocalDateTime;
+import java.util.UUID;
+
 
 public class BookRating {
 
     @Id
-    private String id;
-    private String userid;
+    private UUID id;
+    private UUID userid;
     private String bookid;
     private int value;
     private String date;
     private String comment;
 
-    public BookRating(String userid, String bookid, int value, String comment) {
+    public BookRating(UUID userid, String bookid, int value, String comment) {
         this.userid = userid;
         this.bookid = bookid;
         this.value = value;
         this.date = LocalDateTime.now().toString();
         this.comment = comment;
     }
-
-    public String getId() {
+   public UUID getId() {
         return id;
     }
 
-    public String getUserid() {
+    public UUID getUserid() {
         return userid;
     }
 
-    public void setUserid(String userid) {
+    public void setUserid(UUID userid) {
         this.userid = userid;
     }
 

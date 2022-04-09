@@ -6,15 +6,16 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
+
 @Repository
-public interface BookRatingRepository extends JpaRepository<BookRating, String> {
-    @Query("{'id': ?0}")
-    Optional<BookRating> findById(String id);
+public interface BookRatingRepository extends JpaRepository<BookRating, UUID> {
 
     @Query("{'userid': ?0}")
-    Optional<List<BookRating>> findByUserId(String userid);
+    Optional<List<BookRating>> findByUserId(UUID userid);
 
     @Query("{'bookid': ?0}")
     Optional<List<BookRating>> findByBookId(String bookid);
 
+    void insert(BookRating bookRating);
 }
