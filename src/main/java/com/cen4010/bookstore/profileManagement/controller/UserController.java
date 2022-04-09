@@ -44,12 +44,14 @@ public class UserController {
   }
 
   /*
-   * Getting all users, temp for testing
+   * Getting specific users
    * @return
    */
-  @GetMapping("users/all")
-  ResponseEntity<List<UserDto>> get(){
-    return userService.getCards();
+  @GetMapping("users/profile/{userId}")
+  ResponseEntity<List<UserDto>> get(
+      @PathVariable(value = "userId") UUID userId // unsure about having the UUID in address bar
+  ){
+    return userService.get(userId);
   }
 
   /*
