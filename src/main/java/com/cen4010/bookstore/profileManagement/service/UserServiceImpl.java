@@ -34,6 +34,7 @@ public class UserServiceImpl implements UserService {
     this.creditCardRepository = creditCardRepository;
   }
 
+  // Post for account creation
   @Override
   public ResponseEntity<UserDto> save(UserDto dto) {
 
@@ -54,6 +55,7 @@ public class UserServiceImpl implements UserService {
     return ResponseEntity.status(HttpStatus.OK).body(entity.toDto());
   }
 
+  // Put for account info
   @Override
   public ResponseEntity<UserDto> update(UserDto dto, UUID userId) {
 
@@ -61,9 +63,10 @@ public class UserServiceImpl implements UserService {
 
     UserEntity entityExist = userRepository.findById(userId).orElseThrow(() ->
         new RecordNotFoundException("USER NOT FOUND", dto.getUsername()));
-
+    // updates password, name, phone number
     entityExist.setPassword(dto.getPassword());
     entityExist.setFullName(dto.getFullName());
+    entityExist.setPhoneNumber(dto.getPhoneNumber());
 
     entityExist = userRepository.save(entityExist);
 
@@ -73,15 +76,17 @@ public class UserServiceImpl implements UserService {
 
   }
 
+  // Get for user account info
   @Override
-  public ResponseEntity<List<UserDto>> getCards() {
+  public ResponseEntity<List<UserDto>> get(UUID userID) {
 
-    List<UserDto> userDtos = userRepository.findAll()
+    List<UserDto> userDtos = userRepository.findById(userID)
         .stream().map(UserEntity::toDto).collect(Collectors.toList());
 
     return ResponseEntity.status(HttpStatus.OK).body(userDtos);
   }
-  
+
+  // Post for credit card
   @Override
   public ResponseEntity<CreditCardDto> save(CreditCardDto dto) {
 
@@ -103,7 +108,8 @@ public class UserServiceImpl implements UserService {
 
     return ResponseEntity.status(HttpStatus.OK).body(entity.toDto());
   }
-  
+
+  // Get for credit card
   @Override
   public ResponseEntity<List<CreditCardDto>> getCards(UUID userId) {
 

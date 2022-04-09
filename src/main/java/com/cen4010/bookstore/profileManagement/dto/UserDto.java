@@ -47,11 +47,9 @@ public class UserDto {
   @JsonProperty(value = "Full_Name") // postman overlay
   private String fullName;
 
-  /*
-    To be added, shipping_address and phone_number
-    to bulk up account info etc.
-   */
-
+  // Optional phone number
+  @JsonProperty(value = "Phone_Number")
+  private String phoneNumber;
 
   public UserEntity toEntity(){
     UserEntity entity = new UserEntity();

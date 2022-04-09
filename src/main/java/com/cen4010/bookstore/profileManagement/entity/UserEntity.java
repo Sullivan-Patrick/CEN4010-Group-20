@@ -29,6 +29,9 @@ public class UserEntity {
   @Column(name = "Full_Name")
   private String fullName;
 
+  @Column(name = "Phone_Number")
+  private String phoneNumber;
+
   @ManyToMany
   @JoinTable(
       name = "in_shopping_cart",
@@ -37,9 +40,6 @@ public class UserEntity {
   )
   private Set<Book> booksInCart = new HashSet<>();
 
-/*
-  Might add phone number and shipping address to bulk it up
-*/
   public UserDto toDto(){
     UserDto entity = new UserDto();
     BeanUtils.copyProperties(this, entity);
